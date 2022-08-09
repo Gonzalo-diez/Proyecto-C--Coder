@@ -1,0 +1,5 @@
+C:\Users\Sofi\Desktop\Proyecto Final\Proyecto\Proyecto\obj\Debug\net6.0\Proyecto.csproj.AssemblyReference.cache
+C:\Users\Sofi\Desktop\Proyecto Final\Proyecto\Proyecto\obj\Debug\net6.0\Proyecto.GeneratedMSBuildEditorConfig.editorconfig
+C:\Users\Sofi\Desktop\Proyecto Final\Proyecto\Proyecto\obj\Debug\net6.0\Proyecto.AssemblyInfoInputs.cache
+C:\Users\Sofi\Desktop\Proyecto Final\Proyecto\Proyecto\obj\Debug\net6.0\Proyecto.AssemblyInfo.cs
+C:\Users\Sofi\Desktop\Proyecto Final\Proyecto\Proyecto\obj\Debug\net6.0\Proyecto.csproj.CoreCompileInputs.cache
