@@ -7,25 +7,25 @@ using Proyecto.ADO.NET;
 
 namespace Proyecto.ADO
 {
-    public class ArticuloVendidoHandler : DbHandler
+    public class ProductoVendidoHandler : DbHandler
     {
-        public static List<ArticuloVendido> GetArticulosVendidos(int id)
+        public static List<ProductoVendido> GetProductosVendidos(int id)
         {
-            List<ArticuloVendido> ListArticulosVendidos = new List<ArticuloVendido>();
-            List<Articulo> listArticulos = ArticuloHandler.GetProductos(id);
+            List<ProductoVendido> ListProductoVendidos = new List<ProductoVendido>();
+            List<Producto> listProducto = ProductoHandler.GetProducto(id);
             using (SqlConnection sqlConnection = new SqlConnection(ConnectionString))
             {
                 using (SqlCommand sqlCommand = new SqlCommand())
                 {
-                    foreach (Articulo producto in listArticulos)
+                    foreach (Producto producto in listProducto)
                     {
                         sqlCommand.Connection = sqlConnection;
                         sqlCommand.Connection.Open();
-                        sqlCommand.CommandText = @"select * from ArticuloVendido
-                                                where IdProducto = @idProducto";
-                        
+                        sqlCommand.CommandText = @"select * from ProductoVendido" +
+                                                "where IdProducto = @idProducto";
+
                         sqlCommand.Parameters.AddWithValue("@idProducto", producto.Id);
-                        
+
 
                         SqlDataAdapter dataAdapter = new SqlDataAdapter();
                         dataAdapter.SelectCommand = sqlCommand;
@@ -35,19 +35,19 @@ namespace Proyecto.ADO
 
                         foreach (DataRow row in table.Rows)
                         {
-                            ArticuloVendido articuloVendido = new ArticuloVendido();
-                            articuloVendido.Id = Convert.ToInt32(row["Id"]);
-                            articuloVendido.Stock = Convert.ToInt32(row["Stock"]);
-                            articuloVendido.IdProducto = Convert.ToInt32(row["IdProducto"]);
-                            articuloVendido.IdVenta = Convert.ToInt32(row["IdVenta"]);
+                            ProductoVendido productoVendido = new ProductoVendido();
+                            productoVendido.Id = Convert.ToInt32(row["Id"]);
+                            productoVendido.Stock = Convert.ToInt32(row["Stock"]);
+                            productoVendido.IdProducto = Convert.ToInt32(row["IdProducto"]);
+                            productoVendido.IdVenta = Convert.ToInt32(row["IdVenta"]);
 
-                            ListArticulosVendidos.Add(articuloVendido);
+                            ListProductoVendidos.Add(productoVendido);
                         }
                         sqlCommand.Connection.Close();
                     }
                 }
             }
-            return ListArticulosVendidos;
+            return ListProductoVendidos;
         }
     }
 }

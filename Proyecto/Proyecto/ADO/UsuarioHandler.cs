@@ -50,7 +50,7 @@ namespace EjemploDeClase
             {
                 using (SqlConnection sqlConnection = new SqlConnection(ConnectionString))
                 {
-                    string queryDelete = "DELETE FROM User WHERE Id = @idUsuario";
+                    string queryDelete = "DELETE FROM Usuario WHERE Id = @idUsuario";
 
                     SqlParameter parametro = new SqlParameter();
                     parametro.ParameterName = "idUsuario";
@@ -80,7 +80,8 @@ namespace EjemploDeClase
             {
                 using (SqlConnection sqlConnection = new SqlConnection(ConnectionString))
                 {
-                    string queryUpdate = "UPDATE [FinalDatabase].[dbo].[User] SET Contraseña = @nuevaContraseña WHERE Id = @idUsuario;";
+                    string queryUpdate = "UPDATE [FinalDatabase].[dbo].[Usuario]" +
+                        "SET Contraseña = @nuevaContraseña WHERE Id = @idUsuario;";
 
                     SqlParameter parametroNuevaContraseña = new SqlParameter();
                     parametroNuevaContraseña.ParameterName = "nuevaContraseña";
@@ -116,7 +117,7 @@ namespace EjemploDeClase
             {
                 using (SqlConnection sqlConnection = new SqlConnection(ConnectionString))
                 {
-                    string queryInsert = "INSERT INTO [FinalDatabase].[dbo].[User] " +
+                    string queryInsert = "INSERT INTO [FinalDatabase].[dbo].[Usuario] " +
                         "(Nombre, Apellido, NombreUsuario, Contraseña, Mail) VALUES " +
                         "('Rodrigo', 'Perez', 'rperez', 'ContraseñaDePerez', 'RPerez@gmail.com');";
 

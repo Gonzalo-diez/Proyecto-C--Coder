@@ -6,7 +6,7 @@ using System.Threading.Tasks;
 
 namespace Proyecto.Modelos
 {
-    public class Articulo
+    public class Producto
     {
         public int Id { get; set; }
         public string Descripciones { get; set; }
@@ -16,7 +16,7 @@ namespace Proyecto.Modelos
         public int IdUsuario { get; set; }
     }
 
-    public class ArticuloVendido
+    public class ProductoVendido
     {
         public int Id { get; set; }
         public int IdProducto { get; set; }

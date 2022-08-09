@@ -4,18 +4,18 @@ using System.Data.SqlClient;
 
 namespace Proyecto.ADO.NET
 {
-    public class ArticuloHandler : DbHandler
+    public class ProductoHandler : DbHandler
     {
-        public Articulo GetById(int id)
+        public Producto GetById(int id)
         {
-            List<Articulo> articulos = new List<Articulo>();
+            List<Producto> productos = new List<Producto>();
             using (SqlConnection sqlConnection = new SqlConnection(ConnectionString))
             {
                 using (SqlCommand sqlCommand = new SqlCommand())
                 {
                     sqlCommand.Connection = sqlConnection;
                     sqlCommand.Connection.Open();
-                    sqlCommand.CommandText = "select * from Articulo where Id = @id;";
+                    sqlCommand.CommandText = "select * from Producto where Id = @id;";
 
                     sqlCommand.Parameters.AddWithValue("@id", id);
 
@@ -26,25 +26,25 @@ namespace Proyecto.ADO.NET
                     sqlCommand.Connection.Close();
                     foreach (DataRow row in table.Rows)
                     {
-                        Articulo articulo = new Articulo();
-                        articulo.Id = Convert.ToInt32(row["Id"]);
-                        articulo.Descripciones = row["Descripciones"]?.ToString();
-                        articulo.Costo = Convert.ToDouble(row["Costo"]);
-                        articulo.PrecioVenta = Convert.ToDouble(row["PrecioVenta"]);
-                        articulo.Stock = Convert.ToInt32(row["Stock"]);
-                        articulo.IdUsuario = Convert.ToInt32(row["IdUsuario"]);
+                        Producto producto = new Producto();
+                        producto.Id = Convert.ToInt32(row["Id"]);
+                        producto.Descripciones = row["Descripciones"]?.ToString();
+                        producto.Costo = Convert.ToDouble(row["Costo"]);
+                        producto.PrecioVenta = Convert.ToDouble(row["PrecioVenta"]);
+                        producto.Stock = Convert.ToInt32(row["Stock"]);
+                        producto.IdUsuario = Convert.ToInt32(row["IdUsuario"]);
 
-                        articulos.Add(articulo);
+                        productos.Add(producto);
                     }
                 }
             }
 
-            return articulos?.FirstOrDefault();
+            return productos?.FirstOrDefault();
         }
 
-        public List<Articulo> GetProductos()
+        public static List<Producto> GetProducto(int id)
         {
-            List<Articulo> articulos = new List<Articulo>();
+            List<Producto> productos = new List<Producto>();
             using (SqlConnection sqlConnection = new SqlConnection(ConnectionString))
             {
                 using (SqlCommand sqlCommand = new SqlCommand(
@@ -59,15 +59,15 @@ namespace Proyecto.ADO.NET
                         {
                             while (dataReader.Read())
                             {
-                                Articulo articulo = new Articulo();
-                                articulo.Id = Convert.ToInt32(dataReader["Id"]);
-                                articulo.Stock = Convert.ToInt32(dataReader["Stock"]);
-                                articulo.IdUsuario = Convert.ToInt32(dataReader["IdUsuario"]);
-                                articulo.Costo = Convert.ToInt32(dataReader["Costo"]);
-                                articulo.PrecioVenta = Convert.ToInt32(dataReader["PrecioVenta"]);
-                                articulo.Descripciones = dataReader["Descripciones"].ToString();
+                                Producto producto = new Producto();
+                                producto.Id = Convert.ToInt32(dataReader["Id"]);
+                                producto.Stock = Convert.ToInt32(dataReader["Stock"]);
+                                producto.IdUsuario = Convert.ToInt32(dataReader["IdUsuario"]);
+                                producto.Costo = Convert.ToInt32(dataReader["Costo"]);
+                                producto.PrecioVenta = Convert.ToInt32(dataReader["PrecioVenta"]);
+                                producto.Descripciones = dataReader["Descripciones"].ToString();
 
-                                articulos.Add(articulo);
+                                productos.Add(producto);
                             }
                         }
                     }
@@ -76,7 +76,7 @@ namespace Proyecto.ADO.NET
                 }
             }
 
-            return articulos;
+            return productos;
         }
 
         public List<string> GetTodasLasDescripcionesConDataAdapter()
@@ -84,7 +84,7 @@ namespace Proyecto.ADO.NET
             List<string> descripciones = new List<string>();
             using (SqlConnection sqlConnection = new SqlConnection(ConnectionString))
             {
-                SqlDataAdapter sqlDataAdapter = new SqlDataAdapter("SELECT * FROM Articulo", sqlConnection);
+                SqlDataAdapter sqlDataAdapter = new SqlDataAdapter("SELECT * FROM Producto", sqlConnection);
 
                 sqlConnection.Open();
 
@@ -103,7 +103,7 @@ namespace Proyecto.ADO.NET
             using (SqlConnection sqlConnection = new SqlConnection(ConnectionString))
             {
                 using (SqlCommand sqlCommand = new SqlCommand(
-                    "SELECT * FROM Articulo", sqlConnection))
+                    "SELECT * FROM Producto", sqlConnection))
                 {
                     sqlConnection.Open();
 
@@ -131,7 +131,7 @@ namespace Proyecto.ADO.NET
         {
             using (SqlConnection sqlConnection = new SqlConnection(ConnectionString))
             {
-                string queryDelete = "DELETE FROM [FinalDatabase].[dbo].[Articulo] WHERE Id = @idProducto";
+                string queryDelete = "DELETE FROM [FinalDatabase].[dbo].[Producto] WHERE Id = @idProducto";
 
                 SqlParameter sqlParameter = new SqlParameter("idProducto", SqlDbType.BigInt);
                 sqlParameter.Value = idProducto;
@@ -148,19 +148,19 @@ namespace Proyecto.ADO.NET
             }
         }
 
-        public void AgregarProducto(Articulo articulo)
+        public void AgregarArticulo(Producto producto)
         {
             using (SqlConnection sqlConnection = new SqlConnection(ConnectionString))
             {
-                string queryDelete = "INSERT INTO [FinalDatabase].[dbo].[Articulos] " +
+                string queryDelete = "INSERT INTO [FinalDatabase].[dbo].[Producto] " +
                     "(Descripciones, Costo, PrecioVenta, Stock, IdUsuario) " +
                     "VALUES (@Descripciones, @Costo, @PrecioVenta, @Stock, @IdUsuario);";
 
-                SqlParameter descripcionesParameter = new SqlParameter("Descripciones", SqlDbType.VarChar) { Value = articulo.Descripciones };
-                SqlParameter costoParameter = new SqlParameter("Costo", SqlDbType.Int) { Value = articulo.Costo };
-                SqlParameter precioVentaParameter = new SqlParameter("PrecioVenta", SqlDbType.Int) { Value = articulo.PrecioVenta };
-                SqlParameter stockParameter = new SqlParameter("Stock", SqlDbType.Int) { Value = articulo.Stock };
-                SqlParameter idUsuarioParameter = new SqlParameter("IdUsuario", SqlDbType.Int) { Value = articulo.IdUsuario };
+                SqlParameter descripcionesParameter = new SqlParameter("Descripciones", SqlDbType.VarChar) { Value = producto.Descripciones };
+                SqlParameter costoParameter = new SqlParameter("Costo", SqlDbType.Int) { Value = producto.Costo };
+                SqlParameter precioVentaParameter = new SqlParameter("PrecioVenta", SqlDbType.Int) { Value = producto.PrecioVenta };
+                SqlParameter stockParameter = new SqlParameter("Stock", SqlDbType.Int) { Value = producto.Stock };
+                SqlParameter idUsuarioParameter = new SqlParameter("IdUsuario", SqlDbType.Int) { Value = producto.IdUsuario };
 
                 sqlConnection.Open();
 

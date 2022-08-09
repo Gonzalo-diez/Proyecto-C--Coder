@@ -18,7 +18,7 @@ namespace Proyecto.ADO.NET
                 {
                     sqlCommand.Connection = sqlConnection;
                     sqlCommand.Connection.Open();
-                    sqlCommand.CommandText = @"select * from Pedido where IdUsuario = @idUsuario;";
+                    sqlCommand.CommandText = @"select * from Venta where IdUsuario = @idUsuario;";
 
                     sqlCommand.Parameters.AddWithValue("@idUsuario", id);
 
@@ -41,7 +41,7 @@ namespace Proyecto.ADO.NET
             }
             return ventas;
         }
-        public static void InsertPedido(List<Articulo> articulos, int IdUsuario)
+        public static void InsertPedido(List<Producto> productos, int IdUsuario)
         {
             Venta venta = new Venta();
 
@@ -49,7 +49,7 @@ namespace Proyecto.ADO.NET
             SqlCommand sqlCommand = new SqlCommand();
             sqlCommand.Connection = sqlConnection;
             sqlCommand.Connection.Open();
-            sqlCommand.CommandText = @"INSERT INTO [FinalDatabase].[dbo].[Pedido] ([Comentarios], [IdUsuario]) VALUES (@Comentarios, @IdUsuario)";
+            sqlCommand.CommandText = @"INSERT INTO [FinalDatabase].[dbo].[Venta] ([Comentarios], [IdUsuario]) VALUES (@Comentarios, @IdUsuario)";
 
             sqlCommand.Parameters.AddWithValue("@Comentarios", "");
             sqlCommand.Parameters.AddWithValue("@IdUsuario", IdUsuario);
@@ -58,21 +58,21 @@ namespace Proyecto.ADO.NET
             venta.Id = GetId.Get(sqlCommand);
             venta.IdUsuario = IdUsuario;
 
-            foreach (Articulo articulo in articulos)
+            foreach (Producto producto in productos)
             {
-                sqlCommand.CommandText = @"INSERT INTO [FinalDatabase].[dbo].[ArticuloVendido] ([Stock], [IdProducto], [IdVenta]) VALUES (@Stock, @IdProducto, @IdVenta)";
+                sqlCommand.CommandText = @"INSERT INTO [FinalDatabase].[dbo].[ProductoVendido] ([Stock], [IdProducto], [IdVenta]) VALUES (@Stock, @IdProducto, @IdVenta)";
 
-                sqlCommand.Parameters.AddWithValue("@Stock", articulo.Stock);
-                sqlCommand.Parameters.AddWithValue("@IdProducto", articulo.Id);
+                sqlCommand.Parameters.AddWithValue("@Stock", producto.Stock);
+                sqlCommand.Parameters.AddWithValue("@IdProducto", producto.Id);
                 sqlCommand.Parameters.AddWithValue("@IdVenta", venta.Id);
 
                 sqlCommand.ExecuteNonQuery(); 
                 sqlCommand.Parameters.Clear();
 
-                sqlCommand.CommandText = @" UPDATE [FinalDatabase].[dbo].[Articulo] SET Stock = Stock - @Stock WHERE id = @IdProducto";
+                sqlCommand.CommandText = @" UPDATE [FinalDatabase].[dbo].[Producto] SET Stock = Stock - @Stock WHERE id = @IdProducto";
 
-                sqlCommand.Parameters.AddWithValue("@Stock", articulo.Stock);
-                sqlCommand.Parameters.AddWithValue("@IdProducto", articulo.Id);
+                sqlCommand.Parameters.AddWithValue("@Stock", producto.Stock);
+                sqlCommand.Parameters.AddWithValue("@IdProducto", producto.Id);
 
                 sqlCommand.ExecuteNonQuery();
                 sqlCommand.Parameters.Clear();
