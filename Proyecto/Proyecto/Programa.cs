@@ -10,10 +10,17 @@ namespace Proyecto
 
             productoHandler.GetProducto();
 
+            ProductoVendidoHandler productoVendidoHandler = new ProductoVendidoHandler();
+
+            productoVendidoHandler.GetProductosVendidos();
 
             UsuarioHandler usuarioHandler = new UsuarioHandler();
 
             usuarioHandler.GetUsuarios();
+
+            VentaHandler ventaHandler = new VentaHandler();
+
+            ventaHandler.GetVenta();
         }
     }
 }

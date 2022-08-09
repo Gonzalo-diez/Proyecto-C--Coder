@@ -9,7 +9,7 @@ namespace Proyecto.ADO.NET
 {
     public class VentaHandler : DbHandler
     {
-        public static List<Venta> GetPedido(int id)
+        public static List<Venta> GetVenta(int id)
         {
             List<Venta> ventas = new List<Venta>();
             using (SqlConnection sqlConnection = new SqlConnection(ConnectionString))
