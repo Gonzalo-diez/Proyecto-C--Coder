@@ -23,7 +23,7 @@ namespace Proyecto.Modelos
         public int Stock { get; set; }
         public int IdVenta { get; set; }
     }
-    public class Pedido
+    public class Venta
     {
         public int Id { get; set; }
         public string Comentarios { get; set; }

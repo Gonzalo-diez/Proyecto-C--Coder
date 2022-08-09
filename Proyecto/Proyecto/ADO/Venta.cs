@@ -9,9 +9,9 @@ namespace Proyecto.ADO.NET
 {
     public class PedidoHandler : DbHandler
     {
-        public static List<Pedido> GetPedido(int id)
+        public static List<Venta> GetPedido(int id)
         {
-            List<Pedido> pedidos = new List<Pedido>();
+            List<Venta> ventas = new List<Venta>();
             using (SqlConnection sqlConnection = new SqlConnection(ConnectionString))
             {
                 using (SqlCommand sqlCommand = new SqlCommand())
@@ -29,21 +29,21 @@ namespace Proyecto.ADO.NET
 
                     foreach (DataRow row in table.Rows)
                     {
-                        Pedido pedido = new Pedido();
-                        pedido.Id = Convert.ToInt32(row["Id"]);
-                        pedido.Comentarios = row["Comentarios"].ToString();
-                        pedido.IdUsuario = Convert.ToInt32(row["IdUsuario"]);
+                        Venta venta = new Venta();
+                        venta.Id = Convert.ToInt32(row["Id"]);
+                        venta.Comentarios = row["Comentarios"].ToString();
+                        venta.IdUsuario = Convert.ToInt32(row["IdUsuario"]);
 
-                        pedidos.Add(pedido);
+                        ventas.Add(venta);
                     }
                     sqlCommand.Connection.Close();
                 }
             }
-            return pedidos;
+            return ventas;
         }
         public static void InsertPedido(List<Articulo> articulos, int IdUsuario)
         {
-            Pedido pedido = new Pedido();
+            Venta venta = new Venta();
 
             SqlConnection sqlConnection = new SqlConnection(ConnectionString);
             SqlCommand sqlCommand = new SqlCommand();
@@ -55,8 +55,8 @@ namespace Proyecto.ADO.NET
             sqlCommand.Parameters.AddWithValue("@IdUsuario", IdUsuario);
 
             sqlCommand.ExecuteNonQuery();
-            pedido.Id = GetId.Get(sqlCommand);
-            pedido.IdUsuario = IdUsuario;
+            venta.Id = GetId.Get(sqlCommand);
+            venta.IdUsuario = IdUsuario;
 
             foreach (Articulo articulo in articulos)
             {
@@ -64,7 +64,7 @@ namespace Proyecto.ADO.NET
 
                 sqlCommand.Parameters.AddWithValue("@Stock", articulo.Stock);
                 sqlCommand.Parameters.AddWithValue("@IdProducto", articulo.Id);
-                sqlCommand.Parameters.AddWithValue("@IdVenta", pedido.Id);
+                sqlCommand.Parameters.AddWithValue("@IdVenta", venta.Id);
 
                 sqlCommand.ExecuteNonQuery(); 
                 sqlCommand.Parameters.Clear();
