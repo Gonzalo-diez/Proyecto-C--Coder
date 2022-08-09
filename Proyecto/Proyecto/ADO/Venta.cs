@@ -7,7 +7,7 @@ using Proyecto.ADO.NET;
 
 namespace Proyecto.ADO.NET
 {
-    public class PedidoHandler : DbHandler
+    public class VentaHandler : DbHandler
     {
         public static List<Venta> GetPedido(int id)
         {

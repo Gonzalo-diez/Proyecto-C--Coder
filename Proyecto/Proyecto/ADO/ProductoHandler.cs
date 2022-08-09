@@ -148,7 +148,7 @@ namespace Proyecto.ADO.NET
             }
         }
 
-        public void AgregarArticulo(Producto producto)
+        public void AgregarProducto(Producto producto)
         {
             using (SqlConnection sqlConnection = new SqlConnection(ConnectionString))
             {

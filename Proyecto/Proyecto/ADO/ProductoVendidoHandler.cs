@@ -5,7 +5,7 @@ using System.Data.SqlClient;
 using Proyecto.Modelos;
 using Proyecto.ADO.NET;
 
-namespace Proyecto.ADO
+namespace Proyecto.ADO.NET
 {
     public class ProductoVendidoHandler : DbHandler
     {

@@ -1,14 +1,18 @@
-﻿using Proyecto.Modelos;
-using Proyecto.ADO.NET;
+﻿using System;
+using System.Collections.Generic;
 using System.Data;
 using System.Data.SqlClient;
+using Proyecto.ADO.NET;
+using Proyecto.Modelos;
+using System.Linq;
+using System.Text;
+using System.Threading.Tasks;
 
-
-namespace EjemploDeClase
+namespace Proyecto.ADO.NET
 {
     public class UsuarioHandler : DbHandler
     {
-        public static List<Usuario> GetUsuarios()
+        public List<Usuario> GetUsuarios()
         {
             List<Usuario> usuarios = new List<Usuario>();
             using (SqlConnection sqlConnection = new SqlConnection(ConnectionString))
@@ -80,8 +84,7 @@ namespace EjemploDeClase
             {
                 using (SqlConnection sqlConnection = new SqlConnection(ConnectionString))
                 {
-                    string queryUpdate = "UPDATE [FinalDatabase].[dbo].[Usuario]" +
-                        "SET Contraseña = @nuevaContraseña WHERE Id = @idUsuario;";
+                    string queryUpdate = "UPDATE [SistemaGestion].[dbo].[Usuario] SET Contraseña = @nuevaContraseña WHERE Id = @idUsuario;";
 
                     SqlParameter parametroNuevaContraseña = new SqlParameter();
                     parametroNuevaContraseña.ParameterName = "nuevaContraseña";
@@ -117,7 +120,7 @@ namespace EjemploDeClase
             {
                 using (SqlConnection sqlConnection = new SqlConnection(ConnectionString))
                 {
-                    string queryInsert = "INSERT INTO [FinalDatabase].[dbo].[Usuario] " +
+                    string queryInsert = "INSERT INTO [SistemaGestion].[dbo].[Usuario] " +
                         "(Nombre, Apellido, NombreUsuario, Contraseña, Mail) VALUES " +
                         "('Rodrigo', 'Perez', 'rperez', 'ContraseñaDePerez', 'RPerez@gmail.com');";
 
