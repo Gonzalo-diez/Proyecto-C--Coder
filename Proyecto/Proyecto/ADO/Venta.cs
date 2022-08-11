@@ -49,7 +49,7 @@ namespace Proyecto.ADO.NET
             SqlCommand sqlCommand = new SqlCommand();
             sqlCommand.Connection = sqlConnection;
             sqlCommand.Connection.Open();
-            sqlCommand.CommandText = @"INSERT INTO [FinalDatabase].[dbo].[Venta] ([Comentarios], [IdUsuario]) VALUES (@Comentarios, @IdUsuario)";
+            sqlCommand.CommandText = @"INSERT INTO [SistemaGestion].[dbo].[Venta] ([Comentarios], [IdUsuario]) VALUES (@Comentarios, @IdUsuario)";
 
             sqlCommand.Parameters.AddWithValue("@Comentarios", "");
             sqlCommand.Parameters.AddWithValue("@IdUsuario", IdUsuario);
@@ -60,7 +60,7 @@ namespace Proyecto.ADO.NET
 
             foreach (Producto producto in productos)
             {
-                sqlCommand.CommandText = @"INSERT INTO [FinalDatabase].[dbo].[ProductoVendido] ([Stock], [IdProducto], [IdVenta]) VALUES (@Stock, @IdProducto, @IdVenta)";
+                sqlCommand.CommandText = @"INSERT INTO [SistemaGestion].[dbo].[ProductoVendido] ([Stock], [IdProducto], [IdVenta]) VALUES (@Stock, @IdProducto, @IdVenta)";
 
                 sqlCommand.Parameters.AddWithValue("@Stock", producto.Stock);
                 sqlCommand.Parameters.AddWithValue("@IdProducto", producto.Id);
@@ -69,7 +69,7 @@ namespace Proyecto.ADO.NET
                 sqlCommand.ExecuteNonQuery(); 
                 sqlCommand.Parameters.Clear();
 
-                sqlCommand.CommandText = @" UPDATE [FinalDatabase].[dbo].[Producto] SET Stock = Stock - @Stock WHERE id = @IdProducto";
+                sqlCommand.CommandText = @" UPDATE [SistemaGestion].[dbo].[Producto] SET Stock = Stock - @Stock WHERE id = @IdProducto";
 
                 sqlCommand.Parameters.AddWithValue("@Stock", producto.Stock);
                 sqlCommand.Parameters.AddWithValue("@IdProducto", producto.Id);

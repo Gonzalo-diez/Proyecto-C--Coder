@@ -131,7 +131,7 @@ namespace Proyecto.ADO.NET
         {
             using (SqlConnection sqlConnection = new SqlConnection(ConnectionString))
             {
-                string queryDelete = "DELETE FROM [FinalDatabase].[dbo].[Producto] WHERE Id = @idProducto";
+                string queryDelete = "DELETE FROM [SistemaGestion].[dbo].[Producto] WHERE Id = @idProducto";
 
                 SqlParameter sqlParameter = new SqlParameter("idProducto", SqlDbType.BigInt);
                 sqlParameter.Value = idProducto;
@@ -152,7 +152,7 @@ namespace Proyecto.ADO.NET
         {
             using (SqlConnection sqlConnection = new SqlConnection(ConnectionString))
             {
-                string queryDelete = "INSERT INTO [FinalDatabase].[dbo].[Producto] " +
+                string queryDelete = "INSERT INTO [SistemaGestion].[dbo].[Producto] " +
                     "(Descripciones, Costo, PrecioVenta, Stock, IdUsuario) " +
                     "VALUES (@Descripciones, @Costo, @PrecioVenta, @Stock, @IdUsuario);";
 

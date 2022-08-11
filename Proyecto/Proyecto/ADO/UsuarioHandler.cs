@@ -12,7 +12,7 @@ namespace Proyecto.ADO.NET
 {
     public class UsuarioHandler : DbHandler
     {
-        public List<Usuario> GetUsuarios()
+        public List<Usuario> GetUsuarios(int id)
         {
             List<Usuario> usuarios = new List<Usuario>();
             using (SqlConnection sqlConnection = new SqlConnection(ConnectionString))
