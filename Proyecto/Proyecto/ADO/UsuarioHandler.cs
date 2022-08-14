@@ -48,6 +48,48 @@ namespace Proyecto.ADO.NET
             return usuarios;
         }
 
+        public void GetUsuarioByNombreContraseña(string NombreUsuario, string Contraseña)
+        {
+            try
+            {
+                using (SqlConnection sqlConnection = new SqlConnection(ConnectionString))
+                {
+                    string queryUser = "SELECT @NombreUsuario, @Contraseña FROM Usuario";
+
+                    SqlParameter parametroNombre = new SqlParameter();
+                    parametroNombre.ParameterName = "NombreUsuario";
+                    parametroNombre.SqlDbType = System.Data.SqlDbType.VarChar;
+                    parametroNombre.Value = NombreUsuario;
+
+                    SqlParameter parametroContraseña = new SqlParameter();
+                    parametroContraseña.ParameterName = "Contraseña";
+                    parametroContraseña.SqlDbType = System.Data.SqlDbType.VarChar;
+                    parametroContraseña.Value = Contraseña;
+
+                    sqlConnection.Open();
+
+                    using (SqlCommand sqlCommand = new SqlCommand(queryUser, sqlConnection))
+                    {
+                        sqlCommand.Parameters.Add(parametroNombre);
+                        sqlCommand.Parameters.Add(parametroContraseña);
+                        sqlCommand.ExecuteNonQuery();
+                    }
+                }
+            }
+            catch (Exception ex)
+            {
+                Console.WriteLine(ex.Message);
+            }
+
+            if(NombreUsuario == @NombreUsuario && Contraseña == @Contraseña)
+            {
+                Console.WriteLine("Bienvenido," + " " + NombreUsuario);
+            } else
+            {
+                Console.WriteLine("Usted no se ha registrado");
+            }
+        }
+
         public void Delete(Usuario usuario)
         {
             try
