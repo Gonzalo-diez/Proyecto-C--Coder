@@ -12,7 +12,7 @@ namespace Proyecto.ADO.NET
 {
     public class UsuarioHandler : DbHandler
     {
-        public List<Usuario> GetUsuarios()
+        public static List<Usuario> GetUsuarios(DataTable table)
         {
             List<Usuario> usuarios = new List<Usuario>();
             using (SqlConnection sqlConnection = new SqlConnection(ConnectionString))
@@ -48,46 +48,78 @@ namespace Proyecto.ADO.NET
             return usuarios;
         }
 
-        public void GetUsuarioByNombreContraseña(string NombreUsuario, string Contraseña)
+        public static Usuario GetUsuarioByContraseña(string NombreUsuario, string Contraseña)
         {
-            try
+            Usuario usuario = new Usuario();
+            using (SqlConnection connection = new SqlConnection(ConnectionString))
             {
-                using (SqlConnection sqlConnection = new SqlConnection(ConnectionString))
+                using (SqlCommand command = new SqlCommand())
                 {
-                    string queryUser = "SELECT @NombreUsuario, @Contraseña FROM Usuario";
+                    command.Connection = connection;
+                    command.Connection.Open();
 
-                    SqlParameter parametroNombre = new SqlParameter();
-                    parametroNombre.ParameterName = "NombreUsuario";
-                    parametroNombre.SqlDbType = System.Data.SqlDbType.VarChar;
-                    parametroNombre.Value = NombreUsuario;
+                    command.CommandText = @" SELECT * 
+                                FROM Usuario 
+                                WHERE NombreUsuario = @NombreUsuario
+                                AND   Contraseña = @Contraseña;";
 
-                    SqlParameter parametroContraseña = new SqlParameter();
-                    parametroContraseña.ParameterName = "Contraseña";
-                    parametroContraseña.SqlDbType = System.Data.SqlDbType.VarChar;
-                    parametroContraseña.Value = Contraseña;
+                    command.Parameters.AddWithValue("@NombreUsuario", NombreUsuario);
+                    command.Parameters.AddWithValue("@Contraseña", Contraseña);
 
-                    sqlConnection.Open();
+                    SqlDataAdapter adapter = new SqlDataAdapter();
+                    adapter.SelectCommand = command;
+                    DataTable table = new DataTable();
+                    adapter.Fill(table);
 
-                    using (SqlCommand sqlCommand = new SqlCommand(queryUser, sqlConnection))
+                    if (table.Rows.Count < 1)
                     {
-                        sqlCommand.Parameters.Add(parametroNombre);
-                        sqlCommand.Parameters.Add(parametroContraseña);
-                        sqlCommand.ExecuteNonQuery();
+                        return new Usuario();
                     }
+
+
+                    List<Usuario> usuarios = GetUsuarios(table);
+                    usuario = usuarios[0];
+
+                    command.Connection.Close();
                 }
             }
-            catch (Exception ex)
-            {
-                Console.WriteLine(ex.Message);
-            }
+            return usuario;
+        }
 
-            if(NombreUsuario == @NombreUsuario && Contraseña == @Contraseña)
+        public static Usuario GetUsuarioByUserName(string Nombre)
+        {
+            Usuario usuario = new Usuario();
+            using (SqlConnection connection = new SqlConnection(ConnectionString))
             {
-                Console.WriteLine("Bienvenido," + " " + NombreUsuario);
-            } else
-            {
-                Console.WriteLine("Usted no se ha registrado");
+                using (SqlCommand command = new SqlCommand())
+                {
+                    command.Connection = connection;
+                    command.Connection.Open();
+
+                    command.CommandText = @"SELECT * 
+                                FROM Usuario 
+                                WHERE NombreUsuario = @Nombre;";
+
+                    command.Parameters.AddWithValue("@Nombre", Nombre);
+
+                    SqlDataAdapter adapter = new SqlDataAdapter();
+                    adapter.SelectCommand = command;
+                    DataTable table = new DataTable();
+                    adapter.Fill(table);
+
+                    if (table.Rows.Count < 1)
+                    {
+                        return new Usuario();
+                    }
+
+
+                    List<Usuario> usuarios = GetUsuarios(table);
+                    usuario = usuarios[0];
+
+                    command.Connection.Close();
+                }
             }
+            return usuario;
         }
 
         public void Delete(Usuario usuario)
