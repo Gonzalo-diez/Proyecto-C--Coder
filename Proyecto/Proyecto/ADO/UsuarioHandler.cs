@@ -86,7 +86,7 @@ namespace Proyecto.ADO.NET
             return usuario;
         }
 
-        public static Usuario GetUsuarioByUserName(string Nombre)
+        public static Usuario GetUsuarioByUserName(string NombreUsuario)
         {
             Usuario usuario = new Usuario();
             using (SqlConnection connection = new SqlConnection(ConnectionString))
@@ -98,9 +98,9 @@ namespace Proyecto.ADO.NET
 
                     command.CommandText = @"SELECT * 
                                 FROM Usuario 
-                                WHERE NombreUsuario = @Nombre;";
+                                WHERE NombreUsuario = @NombreUsuario;";
 
-                    command.Parameters.AddWithValue("@Nombre", Nombre);
+                    command.Parameters.AddWithValue("@NombreUsuario", NombreUsuario);
 
                     SqlDataAdapter adapter = new SqlDataAdapter();
                     adapter.SelectCommand = command;
