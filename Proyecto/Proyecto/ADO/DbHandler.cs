@@ -2,6 +2,6 @@
 {
     public abstract class DbHandler
     {
-        public const string ConnectionString = "Server=192.168.1.4;Initial Catalog=SistemaGestion;Trusted_Conection=true;";
+        public const string ConnectionString = "Server=DESKTOP-PRRC6B0;Initial Catalog=SistemaGestion;Trusted_Conection=True;Encryption=False;";
     }
 }

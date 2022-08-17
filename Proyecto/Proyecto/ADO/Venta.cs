@@ -9,35 +9,26 @@ namespace Proyecto.ADO.NET
 {
     public class VentaHandler : DbHandler
     {
-        public static List<Venta> GetVenta(int id)
+        public static List<Venta> GetVenta(int IdUsuario)
         {
             List<Venta> ventas = new List<Venta>();
             using (SqlConnection sqlConnection = new SqlConnection(ConnectionString))
             {
+                string queryBuscarVentas = "SELECT * FROM Venta WHERE IdUsuario = @IdUsuario;";
+
+                double valorId = 1;
+                SqlParameter ParametroId = new SqlParameter();
+                ParametroId.ParameterName = "IdUsuario";
+                ParametroId.SqlDbType = SqlDbType.BigInt;
+                ParametroId.Value = valorId;
+
+                sqlConnection.Open();
                 using (SqlCommand sqlCommand = new SqlCommand())
                 {
-                    sqlCommand.Connection = sqlConnection;
-                    sqlCommand.Connection.Open();
-                    sqlCommand.CommandText = @"select * from Venta where IdUsuario = @idUsuario;";
-
-                    sqlCommand.Parameters.AddWithValue("@idUsuario", id);
-
-                    SqlDataAdapter dataAdapter = new SqlDataAdapter();
-                    dataAdapter.SelectCommand = sqlCommand;
-                    DataTable table = new DataTable();
-                    dataAdapter.Fill(table); //Se ejecuta el Select
-
-                    foreach (DataRow row in table.Rows)
-                    {
-                        Venta venta = new Venta();
-                        venta.Id = Convert.ToInt32(row["Id"]);
-                        venta.Comentarios = row["Comentarios"].ToString();
-                        venta.IdUsuario = Convert.ToInt32(row["IdUsuario"]);
-
-                        ventas.Add(venta);
-                    }
-                    sqlCommand.Connection.Close();
+                    sqlCommand.Parameters.Add(ParametroId);
+                    sqlCommand.ExecuteNonQuery();
                 }
+                sqlConnection.Close();
             }
             return ventas;
         }

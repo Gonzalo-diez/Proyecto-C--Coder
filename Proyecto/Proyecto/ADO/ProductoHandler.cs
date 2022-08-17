@@ -15,7 +15,7 @@ namespace Proyecto.ADO.NET
                 {
                     sqlCommand.Connection = sqlConnection;
                     sqlCommand.Connection.Open();
-                    sqlCommand.CommandText = "select * from Producto where Id = @id;";
+                    sqlCommand.CommandText = "SELECT * FROM Producto where Id = @id;";
 
                     sqlCommand.Parameters.AddWithValue("@id", id);
 
@@ -48,7 +48,7 @@ namespace Proyecto.ADO.NET
             using (SqlConnection sqlConnection = new SqlConnection(ConnectionString))
             {
                 using (SqlCommand sqlCommand = new SqlCommand(
-                    "SELECT * FROM Producto", sqlConnection))
+                    "SELECT * FROM Producto WHERE IdUsuario = @usuario", sqlConnection))
                 {
                     sqlConnection.Open();
 

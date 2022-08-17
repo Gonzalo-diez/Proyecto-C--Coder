@@ -7,6 +7,7 @@ using Proyecto.Modelos;
 using System.Linq;
 using System.Text;
 using System.Threading.Tasks;
+using System.Reflection.Metadata;
 
 namespace Proyecto.ADO.NET
 {
@@ -51,37 +52,28 @@ namespace Proyecto.ADO.NET
         public static Usuario GetUsuarioByContraseña(string NombreUsuario, string Contraseña)
         {
             Usuario usuario = new Usuario();
-            using (SqlConnection connection = new SqlConnection(ConnectionString))
+            using (SqlConnection SqlConnection = new SqlConnection(ConnectionString))
             {
-                using (SqlCommand command = new SqlCommand())
+                string queryBusqueda = "SELECT * FROM Usuario WHERE NombreUsuario = @NombreUsuario AND Contraseña = @Contraseña;";
+                
+                SqlParameter parametroNombre = new SqlParameter();
+                parametroNombre.ParameterName = NombreUsuario;
+                parametroNombre.SqlDbType = SqlDbType.VarChar;
+                parametroNombre.Value = usuario.NombreUsuario;
+
+                SqlParameter parametroContraseña = new SqlParameter();
+                parametroContraseña.ParameterName = Contraseña;
+                parametroContraseña.SqlDbType = SqlDbType.VarChar;
+                parametroContraseña.Value = usuario.Contraseña;
+
+                SqlConnection.Open();
+                using (SqlCommand Sqlcommand = new SqlCommand(queryBusqueda, SqlConnection))
                 {
-                    command.Connection = connection;
-                    command.Connection.Open();
-
-                    command.CommandText = @" SELECT * 
-                                FROM Usuario 
-                                WHERE NombreUsuario = @NombreUsuario
-                                AND   Contraseña = @Contraseña;";
-
-                    command.Parameters.AddWithValue("@NombreUsuario", NombreUsuario);
-                    command.Parameters.AddWithValue("@Contraseña", Contraseña);
-
-                    SqlDataAdapter adapter = new SqlDataAdapter();
-                    adapter.SelectCommand = command;
-                    DataTable table = new DataTable();
-                    adapter.Fill(table);
-
-                    if (table.Rows.Count < 1)
-                    {
-                        return new Usuario();
-                    }
-
-
-                    List<Usuario> usuarios = GetUsuarios(table);
-                    usuario = usuarios[0];
-
-                    command.Connection.Close();
+                    Sqlcommand.Parameters.Add(parametroNombre);
+                    Sqlcommand.Parameters.Add(parametroContraseña);
+                    Sqlcommand.ExecuteNonQuery(); //Ejecuta la busqueda de usuario
                 }
+                SqlConnection.Close();
             }
             return usuario;
         }
@@ -89,35 +81,22 @@ namespace Proyecto.ADO.NET
         public static Usuario GetUsuarioByUserName(string NombreUsuario)
         {
             Usuario usuario = new Usuario();
-            using (SqlConnection connection = new SqlConnection(ConnectionString))
+            using (SqlConnection SqlConnection = new SqlConnection(ConnectionString))
             {
-                using (SqlCommand command = new SqlCommand())
+                string queryBusquedaPorNombre = "SELECT * FROM Usuario WHERE NombreUsuario = @NombreUsuario;";
+
+                SqlParameter parametroNombre = new SqlParameter();
+                parametroNombre.ParameterName = NombreUsuario;
+                parametroNombre.SqlDbType = SqlDbType.VarChar;
+                parametroNombre.Value = usuario.NombreUsuario;
+
+                SqlConnection.Open();
+                using (SqlCommand Sqlcommand = new SqlCommand(queryBusquedaPorNombre, SqlConnection))
                 {
-                    command.Connection = connection;
-                    command.Connection.Open();
-
-                    command.CommandText = @"SELECT * 
-                                FROM Usuario 
-                                WHERE NombreUsuario = @NombreUsuario;";
-
-                    command.Parameters.AddWithValue("@NombreUsuario", NombreUsuario);
-
-                    SqlDataAdapter adapter = new SqlDataAdapter();
-                    adapter.SelectCommand = command;
-                    DataTable table = new DataTable();
-                    adapter.Fill(table);
-
-                    if (table.Rows.Count < 1)
-                    {
-                        return new Usuario();
-                    }
-
-
-                    List<Usuario> usuarios = GetUsuarios(table);
-                    usuario = usuarios[0];
-
-                    command.Connection.Close();
+                    Sqlcommand.Parameters.Add(parametroNombre);
+                    Sqlcommand.ExecuteNonQuery();
                 }
+                SqlConnection.Close();
             }
             return usuario;
         }
@@ -132,7 +111,7 @@ namespace Proyecto.ADO.NET
 
                     SqlParameter parametro = new SqlParameter();
                     parametro.ParameterName = "idUsuario";
-                    parametro.SqlDbType = System.Data.SqlDbType.BigInt;
+                    parametro.SqlDbType = SqlDbType.BigInt;
                     parametro.Value = usuario.Id;
 
                     sqlConnection.Open();
@@ -162,12 +141,12 @@ namespace Proyecto.ADO.NET
 
                     SqlParameter parametroNuevaContraseña = new SqlParameter();
                     parametroNuevaContraseña.ParameterName = "nuevaContraseña";
-                    parametroNuevaContraseña.SqlDbType = System.Data.SqlDbType.VarChar;
+                    parametroNuevaContraseña.SqlDbType = SqlDbType.VarChar;
                     parametroNuevaContraseña.Value = usuario.Contraseña;
 
                     SqlParameter parametroUsuarioId = new SqlParameter();
                     parametroUsuarioId.ParameterName = "idUsuario";
-                    parametroUsuarioId.SqlDbType = System.Data.SqlDbType.BigInt;
+                    parametroUsuarioId.SqlDbType = SqlDbType.BigInt;
                     parametroUsuarioId.Value = usuario.Id;
 
                     sqlConnection.Open();
