@@ -18,8 +18,9 @@ namespace Proyecto.ADO.NET
             List<Usuario> usuarios = new List<Usuario>();
             using (SqlConnection sqlConnection = new SqlConnection(ConnectionString))
             {
-                using (SqlCommand sqlCommand = new SqlCommand(
-                    "SELECT * FROM Usuario", sqlConnection))
+                string mostrarUsuarios = "SELECT * FROM Usuario";
+
+                using (SqlCommand sqlCommand = new SqlCommand(mostrarUsuarios, sqlConnection))
                 {
                     sqlConnection.Open();
 
@@ -41,7 +42,6 @@ namespace Proyecto.ADO.NET
                             }
                         }
                     }
-
                     sqlConnection.Close();
                 }
             }
@@ -165,8 +165,6 @@ namespace Proyecto.ADO.NET
                 Console.WriteLine(ex.Message);
             }
         }
-
-        //Comunmente llamado "Add"
         public void Insert(Usuario usuario)
         {
             try
@@ -177,12 +175,30 @@ namespace Proyecto.ADO.NET
                         "(Nombre, Apellido, NombreUsuario, Contraseña, Mail) VALUES " +
                         "('Rodrigo', 'Perez', 'rperez', 'ContraseñaDePerez', 'RPerez@gmail.com');";
 
-                    SqlParameter nombreParameter = new SqlParameter("Nombre", SqlDbType.VarChar) { Value = usuario.Nombre };
-                    SqlParameter apellidoParameter = new SqlParameter("Apellido", SqlDbType.VarChar) { Value = usuario.Apellido };
-                    SqlParameter nombreUsuarioParameter = new SqlParameter("NombreUsuario", SqlDbType.VarChar) { Value = usuario.NombreUsuario };
-                    SqlParameter contraseñaParameter = new SqlParameter("Contraseña", SqlDbType.VarChar) { Value = usuario.Contraseña };
-                    SqlParameter mailParameter = new SqlParameter("Mail", SqlDbType.VarChar) { Value = usuario.Mail };
+                    SqlParameter nombreParameter = new SqlParameter();
+                    nombreParameter.ParameterName = "Nombre";
+                    nombreParameter.SqlDbType = SqlDbType.VarChar;
+                    nombreParameter.Value = usuario.Nombre;
 
+                    SqlParameter apellidoParameter = new SqlParameter();
+                    apellidoParameter.ParameterName = "Apellido";
+                    apellidoParameter.SqlDbType = SqlDbType.VarChar;
+                    apellidoParameter.Value = usuario.Apellido;
+
+                    SqlParameter nombreUsuarioParameter = new SqlParameter();
+                    nombreUsuarioParameter.ParameterName = "NombreUsuario";
+                    nombreUsuarioParameter.SqlDbType = SqlDbType.VarChar;
+                    nombreParameter.Value = usuario.NombreUsuario;
+
+                    SqlParameter contraseñaParameter = new SqlParameter("Contraseña", SqlDbType.VarChar) { Value = usuario.Contraseña };
+                    contraseñaParameter.ParameterName = "Contraseña";
+                    contraseñaParameter.SqlDbType = SqlDbType.VarChar;
+                    contraseñaParameter.Value = usuario.Contraseña;
+
+                    SqlParameter mailParameter = new SqlParameter();
+                    mailParameter.ParameterName = "Mail";
+                    mailParameter.SqlDbType = SqlDbType.VarChar;
+                    mailParameter.Value = usuario.Mail;
 
                     sqlConnection.Open();
 

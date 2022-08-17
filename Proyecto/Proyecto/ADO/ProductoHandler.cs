@@ -131,16 +131,18 @@ namespace Proyecto.ADO.NET
         {
             using (SqlConnection sqlConnection = new SqlConnection(ConnectionString))
             {
-                string queryDelete = "DELETE FROM [SistemaGestion].[dbo].[Producto] WHERE Id = @idProducto";
+                string queryDelete = "DELETE FROM [SistemaGestion].[dbo].[Producto] WHERE Id = @IdProducto";
 
-                SqlParameter sqlParameter = new SqlParameter("idProducto", SqlDbType.BigInt);
-                sqlParameter.Value = idProducto;
+                SqlParameter borrarParametro = new SqlParameter();
+                borrarParametro.ParameterName = "IdProducto";
+                borrarParametro.SqlDbType = SqlDbType.BigInt;
+                borrarParametro.Value = idProducto;
 
                 sqlConnection.Open();
 
                 using (SqlCommand sqlCommand = new SqlCommand(queryDelete, sqlConnection))
                 {
-                    sqlCommand.Parameters.Add(sqlParameter);
+                    sqlCommand.Parameters.Add(borrarParametro);
                     sqlCommand.ExecuteScalar(); 
                 }
 
@@ -156,11 +158,30 @@ namespace Proyecto.ADO.NET
                     "(Descripciones, Costo, PrecioVenta, Stock, IdUsuario) " +
                     "VALUES (@Descripciones, @Costo, @PrecioVenta, @Stock, @IdUsuario);";
 
-                SqlParameter descripcionesParameter = new SqlParameter("Descripciones", SqlDbType.VarChar) { Value = producto.Descripciones };
-                SqlParameter costoParameter = new SqlParameter("Costo", SqlDbType.Int) { Value = producto.Costo };
-                SqlParameter precioVentaParameter = new SqlParameter("PrecioVenta", SqlDbType.Int) { Value = producto.PrecioVenta };
-                SqlParameter stockParameter = new SqlParameter("Stock", SqlDbType.Int) { Value = producto.Stock };
-                SqlParameter idUsuarioParameter = new SqlParameter("IdUsuario", SqlDbType.Int) { Value = producto.IdUsuario };
+                SqlParameter descripcionesParameter = new SqlParameter();
+                descripcionesParameter.ParameterName = "Descripciones";
+                descripcionesParameter.SqlDbType = SqlDbType.VarChar;
+                descripcionesParameter.Value = producto.Descripciones;
+
+                SqlParameter costoParameter = new SqlParameter();
+                costoParameter.ParameterName = "Costo";
+                costoParameter.SqlDbType = SqlDbType.Int;
+                costoParameter.Value = producto.Costo;
+
+                SqlParameter precioVentaParameter = new SqlParameter();
+                precioVentaParameter.ParameterName = "PrecioVenta";
+                precioVentaParameter.SqlDbType = SqlDbType.Int;
+                precioVentaParameter.Value = producto.PrecioVenta;
+
+                SqlParameter stockParameter = new SqlParameter();
+                stockParameter.ParameterName = "Stock";
+                stockParameter.SqlDbType = SqlDbType.Int;
+                stockParameter.Value = producto.Stock;
+
+                SqlParameter idUsuarioParameter = new SqlParameter();
+                idUsuarioParameter.ParameterName = "IdUsuario";
+                idUsuarioParameter.SqlDbType= SqlDbType.Int;
+                idUsuarioParameter.Value = producto.IdUsuario;
 
                 sqlConnection.Open();
 

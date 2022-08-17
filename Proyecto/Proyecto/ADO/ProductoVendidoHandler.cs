@@ -21,10 +21,9 @@ namespace Proyecto.ADO.NET
                     {
                         sqlCommand.Connection = sqlConnection;
                         sqlCommand.Connection.Open();
-                        sqlCommand.CommandText = @"select * from ProductoVendido" +
-                                                "where IdProducto = @idProducto";
+                        sqlCommand.CommandText = "SELECT * FROM ProductoVendido WHERE IdProducto = @IdProducto";
 
-                        sqlCommand.Parameters.AddWithValue("@idProducto", producto.Id);
+                        sqlCommand.Parameters.AddWithValue("@IdProducto", producto.Id);
 
 
                         SqlDataAdapter dataAdapter = new SqlDataAdapter();
