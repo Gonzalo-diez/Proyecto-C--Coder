@@ -42,13 +42,19 @@ namespace Proyecto.ADO.NET
             return productos?.FirstOrDefault();
         }
 
-        public static List<Producto> GetProducto(int id)
+        public static List<Producto> GetProducto(int IdUsuario)
         {
             List<Producto> productos = new List<Producto>();
             using (SqlConnection sqlConnection = new SqlConnection(ConnectionString))
             {
-                using (SqlCommand sqlCommand = new SqlCommand(
-                    "SELECT * FROM Producto WHERE IdUsuario = @usuario", sqlConnection))
+                string queryBuscarProducto = "SELECT * FROM Producto WHERE IdUsuario = @usuario";
+
+                SqlParameter parametroProducto = new SqlParameter();
+                parametroProducto.ParameterName = "IdUsuario";
+                parametroProducto.SqlDbType = SqlDbType.BigInt;
+                parametroProducto.Value = IdUsuario;
+
+                using (SqlCommand sqlCommand = new SqlCommand(queryBuscarProducto, sqlConnection))
                 {
                     sqlConnection.Open();
 
@@ -71,7 +77,6 @@ namespace Proyecto.ADO.NET
                             }
                         }
                     }
-
                     sqlConnection.Close();
                 }
             }

@@ -15,15 +15,14 @@ namespace Proyecto.ADO.NET
             using (SqlConnection sqlConnection = new SqlConnection(ConnectionString))
             {
                 string queryBuscarVentas = "SELECT * FROM Venta WHERE IdUsuario = @IdUsuario;";
-
-                double valorId = 1;
+                
                 SqlParameter ParametroId = new SqlParameter();
                 ParametroId.ParameterName = "IdUsuario";
                 ParametroId.SqlDbType = SqlDbType.BigInt;
-                ParametroId.Value = valorId;
+                ParametroId.Value = IdUsuario;
 
                 sqlConnection.Open();
-                using (SqlCommand sqlCommand = new SqlCommand())
+                using (SqlCommand sqlCommand = new SqlCommand(queryBuscarVentas, sqlConnection))
                 {
                     sqlCommand.Parameters.Add(ParametroId);
                     sqlCommand.ExecuteNonQuery();

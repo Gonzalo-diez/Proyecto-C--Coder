@@ -7,7 +7,7 @@ namespace Proyecto.ADO.NET
     {
         public static int Get(SqlCommand sqlCommand)
         {
-            sqlCommand.CommandText = "Select @@IDENTITY";
+            sqlCommand.CommandText = "SELECT @@IDENTITY";
             sqlCommand.Parameters.Clear();
 
             object objID = sqlCommand.ExecuteScalar();

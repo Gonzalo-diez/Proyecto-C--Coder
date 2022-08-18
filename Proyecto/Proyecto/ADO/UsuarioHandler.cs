@@ -72,6 +72,19 @@ namespace Proyecto.ADO.NET
                     Sqlcommand.Parameters.Add(parametroNombre);
                     Sqlcommand.Parameters.Add(parametroContraseña);
                     Sqlcommand.ExecuteNonQuery(); //Ejecuta la busqueda de usuario
+
+                    SqlDataAdapter adapter = new SqlDataAdapter();
+                    adapter.SelectCommand = Sqlcommand;
+                    DataTable table = new DataTable();
+                    adapter.Fill(table);
+
+                    if (table.Rows.Count < 1)
+                    {
+                        return new Usuario();
+                    }
+
+                    List<Usuario> usuarios = GetUsuarios(table);
+                    usuario = usuarios[0];
                 }
                 SqlConnection.Close();
             }
