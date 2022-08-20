@@ -1,13 +1,6 @@
-﻿using System;
-using System.Collections.Generic;
+﻿using Proyecto.Modelos;
 using System.Data;
 using System.Data.SqlClient;
-using Proyecto.ADO.NET;
-using Proyecto.Modelos;
-using System.Linq;
-using System.Text;
-using System.Threading.Tasks;
-using System.Reflection.Metadata;
 
 namespace Proyecto.ADO.NET
 {
@@ -18,16 +11,16 @@ namespace Proyecto.ADO.NET
             List<Usuario> usuarios = new List<Usuario>();
             using (SqlConnection sqlConnection = new SqlConnection(ConnectionString))
             {
-                string mostrarUsuarios = "SELECT * FROM Usuario";
+                string queryMostrarUsuarios = "SELECT * FROM Usuario";
 
-                using (SqlCommand sqlCommand = new SqlCommand(mostrarUsuarios, sqlConnection))
+                using (SqlCommand sqlCommand = new SqlCommand(queryMostrarUsuarios, sqlConnection))
                 {
                     sqlConnection.Open();
 
                     using (SqlDataReader dataReader = sqlCommand.ExecuteReader())
                     {
                         // Me aseguro que haya filas que leer
-                        if (dataReader.HasRows)
+                        if(dataReader.HasRows)
                         {
                             while (dataReader.Read())
                             {
@@ -55,7 +48,7 @@ namespace Proyecto.ADO.NET
             using (SqlConnection SqlConnection = new SqlConnection(ConnectionString))
             {
                 string queryBusqueda = "SELECT * FROM Usuario WHERE NombreUsuario = @NombreUsuario AND Contraseña = @Contraseña;";
-                
+
                 SqlParameter parametroNombre = new SqlParameter();
                 parametroNombre.ParameterName = NombreUsuario;
                 parametroNombre.SqlDbType = SqlDbType.VarChar;
